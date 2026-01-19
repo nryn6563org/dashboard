@@ -30,10 +30,15 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
   tailwindcss: {
     viewer: true, // /_tailwind/ 경로에서 가이드 확인 가능
     configPath: 'tailwind.config.js'
+  },
+
+  // 2. 컬러 모드 설정 (Tailwind 2/3 호환성)
+  colorMode: {
+    classSuffix: '' // html 태그에 'dark-mode' 대신 'dark'가 붙게 설정
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

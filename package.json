@@ -2,6 +2,10 @@
   "name": "my-nuxt2-app",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.20.8",
+    "npm": ">=10.8.2"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -20,6 +24,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@nuxtjs/color-mode": "^2.1.1",
     "@nuxtjs/eslint-config": "^11.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
