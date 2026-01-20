@@ -1,21 +1,24 @@
 <template>
-  <div id="wrap">
-    <DefaultHeader />
-    <Nuxt />
+  <div id="dashboard-wrapper" :class="{ 'lnb-closed': !isLnbOpen }">
+    <LayoutHeader :is-edit-mode="isEditMode" @toggle-lnb="isLnbOpen = !isLnbOpen"
+      @toggle-edit="isEditMode = !isEditMode" />
+
+    <div id="container">
+      <LayoutLnb />
+      <main id="main-content">
+        <DashBoardGrid :is-edit-mode="isEditMode" />
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import DefaultHeader from '~/components/DefaultHeader.vue'
-
 export default {
-  components: {
-    DefaultHeader
+  data() {
+    return {
+      isLnbOpen: true,
+      isEditMode: false
+    }
   }
 }
 </script>
-<style scoped>
-  #wrap{
-    @apply w-full h-full min-h-screen bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100
-  }
-</style>

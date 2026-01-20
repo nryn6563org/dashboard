@@ -1,0 +1,11 @@
+#header {
+  @apply h-20 w-full fixed top-0 left-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-[100] 
+         flex items-center justify-between px-8 transition-all;
+}
+.dark #header { @apply bg-gray-900/90 border-gray-800 text-white; }
+.logo { @apply text-xl font-black tracking-tighter text-red-600; }
+.header-left, .header-right { @apply flex items-center gap-4; }
+
+#edit-mode-toggle { @apply flex items-center gap-2 bg-red-50 text-red-600 px-5 py-2.5 rounded-xl font-bold text-sm border-none cursor-pointer; }
+#edit-mode-toggle.is-editing { @apply bg-red-600 text-white shadow-lg shadow-red-200; }
+#lnb-toggle, #dark-mode-toggle { @apply w-10 h-10 rounded-xl flex items-center justify-center border-none bg-transparent cursor-pointer text-gray-500 hover:bg-gray-100; }

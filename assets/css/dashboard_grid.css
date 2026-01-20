@@ -1,0 +1,39 @@
+/* assets/css/dashboard_grid.css */
+
+#main-content { 
+  @apply flex-1 ml-[300px] mt-20 p-10 bg-gray-50 min-h-[calc(100vh-80px)] transition-all dark:bg-slate-800;
+}
+
+.lnb-closed #main-content { @apply ml-0; }
+
+.grid-container { 
+  display: grid; 
+  /* 100px 고정 그리드 시스템 */
+  grid-template-columns: repeat(12, 100px); 
+  grid-auto-rows: 100px; 
+  @apply gap-6 w-full transition-all; 
+}
+
+.grid-container.is-editing {
+  @apply p-8 bg-red-50/20 rounded-[3.5rem] border-2 border-dashed border-red-200;
+  background-image: radial-gradient(#ef4444 1px, transparent 1px);
+  background-size: 100px 100px; 
+  min-height: calc(100vh - 160px); 
+  user-select: none; 
+}
+
+.add-widget-menu { 
+  @apply flex items-center gap-4 mb-10 p-6 bg-white dark:bg-gray-900 rounded-[2.5rem] border-2 border-dashed border-red-100; 
+}
+
+/* --- 핵심 수정: 잔상(Ghost)의 높이값 고정 --- */
+.ghost { 
+  @apply rounded-[2.5rem] !important;
+  opacity: 0.3 !important; 
+  background: #fee2e2 !important; 
+  border: 2px dashed #ef4444 !important; 
+  /* inherit 대신 auto를 사용하여 size-XxX 클래스의 높이를 따르게 합니다. */
+  height: auto !important;
+  min-height: auto !important;
+  overflow: hidden;
+}

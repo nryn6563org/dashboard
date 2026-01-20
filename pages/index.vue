@@ -1,25 +1,15 @@
 <template>
-  <div id="container">
-    <!-- lnb -->
-     <LNB />
-     <!-- content -->
+  <div id="content">
+    <DashBoardGrid />
   </div>
 </template>
+
 <script>
-import LNB from '@/components/LNB'
+import DashBoardGrid from '@/components/DashBoardGrid'
 
 export default {
   components: {
-    LNB
-  },
-  data() {
-    return {}
+    DashBoardGrid
   }
 }
 </script>
-
-<style scoped>
-  #container{
-    @apply w-full h-full
-  }
-</style>

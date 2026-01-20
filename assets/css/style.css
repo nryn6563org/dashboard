@@ -1,7 +1,30 @@
+/* assets/css/style.css (글로벌) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html,body, #__nuxt, #__layout{
-  @apply w-full h-full
+@layer components {
+  body { @apply transition-colors duration-500 antialiased text-gray-900 bg-white; }
+  .dark body { @apply bg-black text-gray-100; }
+  
+  #dashboard-wrapper { @apply flex flex-col min-h-screen relative; }
+  #container { @apply flex flex-1 w-full relative; }
+
+  /* 가로 너비 시스템 ($100\text{px}$ 단위) */
+  [class*="size-2x"]  { grid-column: span 2 / span 2; width: 224px !important; }
+  [class*="size-4x"]  { grid-column: span 4 / span 4; width: 472px !important; }
+  [class*="size-6x"]  { grid-column: span 6 / span 6; width: 720px !important; }
+  [class*="size-8x"]  { grid-column: span 8 / span 8; width: 968px !important; }
+  [class*="size-10x"] { grid-column: span 10 / span 10; width: 1216px !important; }
+  [class*="size-12x"] { grid-column: span 12 / span 12; width: 1464px !important; }
+
+  /* --- 핵심: 고정 높이 시스템 ($100\text{px}$ 블록 + $24\text{px}$ 간격 합산) --- */
+  /* !important를 사용하여 모든 드래그 상태에서도 이 높이를 유지합니다. */
+  [class$="x2"] { grid-row: span 2; height: 224px !important; min-height: 224px !important; }
+  [class$="x4"] { grid-row: span 4; height: 472px !important; min-height: 472px !important; }
+  [class$="x6"] { grid-row: span 6; height: 720px !important; min-height: 720px !important; }
+  [class$="x8"] { grid-row: span 8; height: 968px !important; min-height: 968px !important; }
+  [class$="x10"] { grid-row: span 10; height: 1216px !important; min-height: 1216px !important; }
+  [class$="x12"] { grid-row: span 12; height: 1464px !important; min-height: 1464px !important; }
+  [class$="x24"] { grid-row: span 24; height: 2952px !important; min-height: 2952px !important; }
 }

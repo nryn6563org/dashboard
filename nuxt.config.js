@@ -38,7 +38,9 @@ export default {
 
   // 2. 컬러 모드 설정 (Tailwind 2/3 호환성)
   colorMode: {
-    classSuffix: '' // html 태그에 'dark-mode' 대신 'dark'가 붙게 설정
+    preference: 'system', // 기본값을 시스템 설정으로 고정
+    fallback: 'light', // 시스템 설정을 감지할 수 없을 때 사용할 모드
+    classSuffix: '' // .dark 클래스 그대로 사용
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

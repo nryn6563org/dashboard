@@ -1,0 +1,47 @@
+/* assets/css/dashboard_widget.css */
+
+.widget { 
+  @apply flex flex-col bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden relative transition-all; 
+}
+
+/* --- 클릭(Chosen) 및 드래그(Drag) 시 높이 고정 로직 --- */
+.sortable-chosen, .sortable-drag {
+  /* inherit 대신 auto를 사용하여 size-XxX 클래스에 설정된 !important 높이가 적용되게 합니다. */
+  height: auto !important;
+  animation: none !important;
+  transition: none !important;
+  transform: scale(1) !important;
+}
+
+.sortable-drag {
+  @apply shadow-2xl opacity-90 z-[1000] bg-white dark:bg-gray-900;
+}
+
+.dark .widget {
+  @apply bg-gray-900 border-gray-800 shadow-none; 
+}
+
+.widget-header { 
+  @apply flex items-center justify-between px-8 py-5 border-b border-gray-50 bg-gray-50/30; 
+}
+
+.widget-title { @apply text-base font-bold text-gray-800; }
+.widget-body { @apply flex-1 p-8 relative text-sm text-gray-500 flex flex-col; }
+
+.edit-title-input { @apply bg-white dark:bg-gray-800 border-b-2 border-red-200 font-bold outline-none focus:border-red-600 w-full; }
+.edit-content-input { @apply bg-transparent border-2 border-dashed border-red-100 rounded-2xl p-4 w-full h-full min-h-[100px] outline-none text-sm; }
+
+.resizer-handle { @apply absolute bottom-2 right-2 w-8 h-8 flex items-center justify-center text-gray-300 hover:text-red-600 cursor-nwse-resize z-30; }
+.drag-handle { @apply text-gray-300 transition-colors cursor-grabbing; }
+.drag-handle:hover { @apply text-red-600; }
+
+@keyframes horror-shake {
+   0%, 100% { transform: rotate(0deg) scale(0.98); } 
+   33% { transform: rotate(0.1deg) scale(0.98); } 
+   66% { transform: rotate(-0.1deg) scale(0.98); } 
+}
+
+/* 드래그 및 클릭 상태가 아닐 때만 쉐이크 애니메이션 적용 */
+.is-editing:not(.sortable-chosen):not(.sortable-drag) { 
+  animation: horror-shake 0.6s infinite; 
+}
