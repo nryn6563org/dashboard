@@ -1,0 +1,35 @@
+.index-container {
+  @apply h-full flex flex-col;
+}
+
+.index-header {
+  @apply flex items-center justify-between mb-8;
+}
+
+.index-title {
+  @apply text-2xl font-black tracking-tight text-slate-900 dark:text-white;
+}
+
+.index-subtitle {
+  @apply text-slate-500 text-sm;
+}
+
+.index-actions {
+  @apply flex items-center gap-3;
+}
+
+.btn-add-widget-main {
+  @apply flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 font-bold text-sm;
+}
+
+.btn-edit-done {
+  @apply flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg shadow-green-500/20 transition-all active:scale-95 font-bold text-sm;
+}
+
+.grid-board-container {
+  @apply flex-1 -mx-4 overflow-visible;
+}
+
+.edit-overlay {
+  @apply absolute inset-0 bg-blue-500/10 border-2 border-dashed border-blue-500/30 rounded-2xl pointer-events-none z-10;
+}
