@@ -1,16 +1,72 @@
-.index-container {
-  @apply h-full flex flex-col;
+.dashboard-top-section {
+  @apply mb-10 -mx-6 -mt-6 p-10 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex;
 }
 
-.index-header {
+.dashboard-top-inner {
+  @apply w-full;
+}
+
+.greeting-title {
+  @apply text-3xl font-black mb-8 leading-tight;
+}
+
+.greeting-name {
+  @apply text-blue-600;
+}
+
+.top-actions-wrapper {
+  @apply flex flex-col gap-8;
+}
+
+.search-bar-container {
+  @apply flex items-center gap-3 max-w-xl w-full;
+}
+
+.search-input {
+  @apply flex-1 px-5 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-base focus:ring-4 focus:ring-blue-500/10 outline-none transition-all shadow-sm;
+}
+
+.search-btn {
+  @apply px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-base font-black cursor-pointer transition-all active:scale-95 flex items-center justify-center whitespace-nowrap shadow-lg shadow-blue-500/20;
+  height: 54px;
+}
+
+.mini-index-list {
+  @apply flex gap-3 overflow-x-auto pb-4;
+}
+
+.mini-index-card {
+  @apply flex flex-col gap-1 p-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl min-w-[160px] shadow-sm hover:shadow-md transition-shadow;
+}
+
+.mini-index-name {
+  @apply text-xs font-bold text-slate-400 uppercase tracking-wider;
+}
+
+.mini-index-value {
+  @apply text-xl font-black;
+}
+
+.mini-index-change {
+  @apply text-xs font-black flex items-center gap-1;
+}
+
+.mini-index-change.plus { @apply text-red-500; }
+.mini-index-change.minus { @apply text-blue-500; }
+
+.dashboard-section-header {
   @apply flex items-center justify-between mb-8;
 }
 
-.index-title {
-  @apply text-2xl font-black tracking-tight text-slate-900 dark:text-white;
+.dashboard-title-group {
+  @apply flex flex-col gap-1;
 }
 
-.index-subtitle {
+.dashboard-title {
+  @apply text-2xl font-black tracking-tight;
+}
+
+.dashboard-subtitle {
   @apply text-slate-500 text-sm;
 }
 
@@ -19,17 +75,97 @@
 }
 
 .btn-add-widget-main {
-  @apply flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 font-bold text-sm;
+  @apply flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all active:scale-95 font-black text-sm shadow-lg shadow-blue-500/20;
 }
 
 .btn-edit-done {
-  @apply flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg shadow-green-500/20 transition-all active:scale-95 font-bold text-sm;
+  @apply flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-all active:scale-95 font-black text-sm shadow-lg shadow-green-500/20;
 }
 
 .grid-board-container {
-  @apply flex-1 -mx-4 overflow-visible;
+  @apply flex-1 -mx-2 min-h-[600px];
+}
+
+.grid-board-layout {
+  @apply min-h-full;
+}
+
+/* Widget Content Styles */
+.widget-inner-content {
+  @apply flex flex-col h-full;
+}
+
+.market-widget, .asset-widget, .crm-widget {
+  @apply flex flex-col h-full;
+}
+
+.widget-stat-group {
+  @apply flex flex-col items-start gap-4 mb-8;
+}
+
+.widget-label {
+  @apply text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider;
+}
+
+.widget-main-value {
+  @apply text-4xl font-black leading-none tracking-tighter;
+}
+
+.widget-sub-value {
+  @apply text-xl font-bold;
+}
+
+.widget-change-tag {
+  @apply text-base font-black flex items-center gap-1;
+}
+
+.widget-caption {
+  @apply text-xs text-slate-400 font-medium;
+}
+
+.sparkline-box {
+  @apply h-32 w-full mt-auto;
+}
+
+.list-widget-ul {
+  @apply flex flex-col gap-5;
+}
+
+.list-item-li {
+  @apply flex items-start gap-3 cursor-pointer;
+}
+
+.list-item-li:hover .list-item-dot {
+  @apply scale-125;
+}
+
+.list-item-li:hover .list-item-text {
+  @apply text-blue-600;
+}
+
+.list-item-dot {
+  @apply w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0 shadow-sm transition-transform;
+}
+
+.list-item-text {
+  @apply text-base font-bold text-slate-600 dark:text-slate-400 transition-colors line-clamp-1;
+}
+
+.bubble-chart-widget {
+  @apply relative overflow-hidden flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/20 rounded-[2rem] h-full border border-slate-100 dark:border-slate-800/50;
 }
 
 .edit-overlay {
-  @apply absolute inset-0 bg-blue-500/10 border-2 border-dashed border-blue-500/30 rounded-2xl pointer-events-none z-10;
+  @apply absolute inset-0 bg-blue-500/5 border-2 border-dashed border-blue-500/20 rounded-[2rem] pointer-events-none z-10 animate-pulse;
+}
+
+/* Custom Scrollbar Shorthand */
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-1.5;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 dark:bg-slate-700 rounded-full;
 }

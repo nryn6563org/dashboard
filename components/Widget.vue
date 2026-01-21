@@ -2,7 +2,7 @@
   <div class="widget-container group">
     <!-- Widget Header -->
     <div class="widget-header">
-      <div class="flex-1 min-w-0">
+      <div class="widget-title-container">
         <input 
           v-if="isEditingTitle"
           ref="titleInput"
@@ -14,24 +14,14 @@
         <h4 
           v-else 
           class="widget-title"
-          :class="{ 'cursor-text hover:text-blue-600': isEditMode }"
+          :class="{ 'is-editable': isEditMode }"
           @click="startEditTitle"
         >
           {{ title }}
         </h4>
       </div>
-      <div class="widget-actions">
-        <button 
-          v-if="isEditMode"
-          class="widget-action-btn text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
-          title="위젯 삭제"
-          @click="$emit('remove')"
-        >
-          <i-trash2 :size="14" />
-        </button>
-        <button v-else class="widget-action-btn">
-          <i-maximize-2 :size="14" />
-        </button>
+      <div class="widget-timestamp">
+        {{ currentDateTime }}
       </div>
     </div>
     
@@ -64,6 +54,17 @@ export default {
   watch: {
     title(newVal) {
       this.localTitle = newVal
+    }
+  },
+  computed: {
+    currentDateTime() {
+      const now = new Date()
+      const yy = String(now.getFullYear()).slice(-2)
+      const mm = String(now.getMonth() + 1).padStart(2, '0')
+      const dd = String(now.getDate()).padStart(2, '0')
+      const hh = String(now.getHours()).padStart(2, '0')
+      const min = String(now.getMinutes()).padStart(2, '0')
+      return `${yy}.${mm}.${dd} ${hh}-${min}`
     }
   },
   methods: {

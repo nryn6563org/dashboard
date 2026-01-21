@@ -1,11 +1,11 @@
 <template>
-  <div class="layout-wrapper">
+  <div class="layout-wrapper" :class="theme">
     <Header />
     <div class="content-container">
       <LNB />
       <main 
         class="main-content"
-        :class="isLnbOpen ? 'ml-64' : 'ml-0'"
+        :class="{ 'lnb-open-content': isLnbOpen }"
       >
         <div class="main-container-p">
           <Nuxt />
@@ -27,63 +27,81 @@
               </button>
             </div>
             
-            <!-- Drawer Content Placeholder -->
             <div class="drawer-content">
-              <div v-if="activeDrawer === 'widget'">
-                <p class="drawer-description">보드에 추가할 위젯을 선택하세요.</p>
-                <div class="drawer-grid">
-                  <button 
-                    v-for="i in 5" :key="i"
-                    class="drawer-item-btn group"
-                    @click="addWidget(i)"
+              <!-- Widget Selection View -->
+              <div v-if="activeDrawer === 'widget'" class="drawer-widget-view">
+                <!-- Vertical Category Nav like LNB -->
+                <nav class="drawer-category-nav">
+                  <div class="drawer-category-menu">
+                    <div 
+                      v-for="catData in availableWidgets" :key="catData.category"
+                      class="category-menu-item"
+                      :class="{ 'active': currentCategory === catData.category }"
+                      @click="currentCategory = catData.category"
+                    >
+                      <div class="category-icon-wrap">
+                        <component :is="getCategoryIcon(catData.category)" :size="20" />
+                      </div>
+                      <span class="category-name">{{ catData.category }}</span>
+                    </div>
+                  </div>
+                </nav>
+
+                <!-- Sub-titles and Horizontal Swipe for items -->
+                <div class="drawer-widget-scroll-area custom-scrollbar">
+                  <div 
+                    v-for="sub in currentSubCategories" 
+                    :key="sub.name"
+                    class="drawer-subcategory-group"
                   >
-                    <div class="drawer-item-title">샘플 위젯 {{ i }}</div>
-                    <div class="drawer-item-desc text-slate-500">300x300 단위 콘텐츠</div>
-                  </button>
+                    <h4 class="subcategory-name">{{ sub.name }}</h4>
+                    <div class="horizontal-widget-swipe custom-scrollbar">
+                      <button 
+                        v-for="w in sub.items" :key="w.type"
+                        class="drawer-item-btn group"
+                        :disabled="isWidgetOnBoard(w.type)"
+                        :class="{ 'opacity-50 cursor-not-allowed grayscale': isWidgetOnBoard(w.type) }"
+                        @click="addWidget(w)"
+                      >
+                        <div class="drawer-item-icon">
+                          <component :is="getWidgetIcon(w)" :size="24" />
+                        </div>
+                        <div class="drawer-item-title">{{ w.title }}</div>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div v-if="activeDrawer === 'settings'">
-                <p class="drawer-description">사이드바 메뉴를 관리합니다.</p>
+
+              <!-- Systems Settings View -->
+              <div v-if="activeDrawer === 'settings'" class="drawer-settings-view">
+                <p class="drawer-description">사이드바 메뉴와 시스템 설정을 관리합니다.</p>
                 
-                <div class="space-y-6">
-                  <!-- Current Menu Items -->
-                  <div>
-                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">현재 메뉴</h4>
-                    <div class="space-y-2">
-                      <div v-for="item in menuItems" :key="item.path" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                        <div class="flex items-center gap-3">
-                          <component :is="`i-${item.icon}`" :size="16" class="text-slate-400" />
-                          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ item.name }}</span>
+                <div class="settings-section">
+                  <div class="settings-group">
+                    <h4 class="settings-title">현재 활성 메뉴</h4>
+                    <div class="settings-list">
+                      <div v-for="item in menuItems" :key="item.path" class="settings-item">
+                        <div class="settings-item-info">
+                          <component :is="`i-${item.icon}`" :size="16" />
+                          <span class="settings-item-name">{{ item.name }}</span>
                         </div>
-                        <button 
-                          v-if="item.path !== '/'"
-                          @click="removeMenuItem(item.path)" 
-                          class="p-1.5 text-slate-400 hover:text-red-500 transition-colors"
-                        >
+                        <button v-if="item.path !== '/'" @click="removeMenuItem(item.path)" class="settings-remove-btn">
                           <i-trash2 :size="14" />
                         </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Add New Menu Item -->
-                  <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">새 메뉴 추가</h4>
-                    <div class="space-y-3">
+                  <div class="settings-add-wrap">
+                    <h4 class="settings-title">새 메뉴 추가</h4>
+                    <div class="flex flex-col gap-3">
                       <input v-model="newItem.name" type="text" placeholder="메뉴 이름" class="drawer-input">
                       <input v-model="newItem.path" type="text" placeholder="경로 (예: /analytics)" class="drawer-input">
                       <select v-model="newItem.icon" class="drawer-input">
-                        <option value="layout-dashboard">대시보드</option>
-                        <option value="users">사용자</option>
-                        <option value="pie-chart">통계</option>
-                        <option value="bell">알림</option>
-                        <option value="calendar">일정</option>
-                        <option value="message-square">메시지</option>
-                        <option value="search">검색</option>
+                        <option v-for="icon in availableIcons" :key="icon" :value="icon">{{ icon }}</option>
                       </select>
-                      <button @click="addMenuItem" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm transition-all active:scale-95">
-                        추가하기
-                      </button>
+                      <button @click="addMenuItem" class="settings-add-btn">메뉴 추가</button>
                     </div>
                   </div>
                 </div>
@@ -93,6 +111,24 @@
         </div>
       </transition>
     </div>
+    
+    <!-- News Source Selection Modal -->
+    <div v-if="isNewsModalOpen" class="modal-overlay">
+      <div class="modal-card">
+        <h3 class="modal-title">뉴스 소스 선택</h3>
+        <p class="modal-desc">대시보드에 표시할 뉴스 채널을 선택해 주세요.</p>
+        <div class="modal-grid">
+          <label v-for="source in newsSources" :key="source" class="modal-item">
+            <input type="checkbox" v-model="selectedNewsSources" :value="source">
+            <span>{{ source }}</span>
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button @click="isNewsModalOpen = false" class="modal-btn cancel">취소</button>
+          <button @click="confirmNewsAdd" class="modal-btn confirm">위젯 추가</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,17 +136,34 @@
 export default {
   data() {
     return {
-      newItem: {
-        name: '',
-        path: '',
-        icon: 'layout-dashboard'
-      }
+      currentCategory: '시장지수',
+      categoryIconMap: {
+        '시장지수': 'i-trending-up',
+        '환율/원자재': 'i-dollar-sign',
+        '가상자산': 'i-bitcoin',
+        '고객/뉴스': 'i-newspaper'
+      },
+      availableIcons: [
+        'layout-dashboard', 'users', 'pie-chart', 'bell', 'calendar', 'message-square', 'search', 'trending-up', 'briefcase', 'zap', 'signal'
+      ],
+      newItem: { name: '', path: '', icon: 'layout-dashboard' },
+      isNewsModalOpen: false,
+      selectedNewsSources: [],
+      pendingWidget: null,
+      newsSources: ['연합뉴스', '매일경제', '한국경제', 'SBS 뉴스', 'KBS 뉴스', 'YTN', '블룸버그']
     }
   },
   computed: {
     isLnbOpen() { return this.$store.state.isLnbOpen },
     activeDrawer() { return this.$store.state.activeDrawer },
     menuItems() { return this.$store.state.menuItems },
+    availableWidgets() { return this.$store.state.availableWidgets },
+    widgets() { return this.$store.state.widgets },
+    theme() { return this.$store.state.theme },
+    currentSubCategories() {
+      const cat = this.availableWidgets.find(w => w.category === this.currentCategory)
+      return cat ? cat.subCategories : []
+    },
     drawerTitle() {
       if (this.activeDrawer === 'widget') return '위젯 추가'
       if (this.activeDrawer === 'settings') return '시스템 설정'
@@ -121,14 +174,10 @@ export default {
     'click-outside': {
       bind(el, binding, vnode) {
         el.clickOutsideEvent = function(event) {
-          // If the drawer is just opening, we might want to skip the first click
-          // but usually .stop on the trigger is better.
-          // Here we check if the click was outside the element
           if (!(el === event.target || el.contains(event.target))) {
             vnode.context[binding.expression](event)
           }
         }
-        // Use timeout to avoid immediate closing when opening
         setTimeout(() => {
           document.body.addEventListener('click', el.clickOutsideEvent)
         }, 0)
@@ -139,15 +188,47 @@ export default {
     }
   },
   methods: {
+    getCategoryIcon(cat) {
+      return this.categoryIconMap[cat] || 'i-grid'
+    },
+    getWidgetIcon(w) {
+      if (w.icon) return `i-${w.icon}`
+      return 'i-grid'
+    },
     closeDrawer() {
       this.$store.commit('CLOSE_DRAWER')
     },
-    addWidget(type) {
+    isWidgetOnBoard(type) {
+      return this.widgets.some(w => w.type === type)
+    },
+    addWidget(widget) {
+      if (widget.type?.startsWith('news')) {
+        this.pendingWidget = widget
+        this.isNewsModalOpen = true
+        return
+      }
+      this.confirmAddWidget(widget)
+    },
+    confirmNewsAdd() {
+      if (this.selectedNewsSources.length === 0) {
+        alert('최소 하나 이상의 채널을 선택해주세요.')
+        return
+      }
+      const widget = {
+        ...this.pendingWidget,
+        sources: [...this.selectedNewsSources]
+      }
+      this.confirmAddWidget(widget)
+      this.isNewsModalOpen = false
+      this.selectedNewsSources = []
+      this.pendingWidget = null
+    },
+    confirmAddWidget(widget) {
       const id = Date.now().toString()
       this.$store.commit('ADD_WIDGET', {
-        i: id, x: 0, y: Infinity, w: 3, h: 1, title: `위젯 ${type}`
+        ...widget,
+        i: id, x: 0, y: Infinity
       })
-      this.closeDrawer()
     },
     addMenuItem() {
       if (this.newItem.name && this.newItem.path) {
@@ -179,5 +260,9 @@ export default {
 .drawer-leave-to {
   transform: translateX(100%);
   opacity: 0;
+}
+
+.lnb-open-content {
+  margin-left: 260px; /* Matching LNB width */
 }
 </style>

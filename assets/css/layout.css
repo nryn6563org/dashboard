@@ -1,63 +1,137 @@
+/* Layout Base */
 .layout-wrapper {
-  @apply min-h-screen flex flex-col scroll-smooth;
+  @apply min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans;
 }
 
 .content-container {
-  @apply flex flex-1 relative overflow-hidden;
+  @apply flex pt-16 min-h-screen relative;
 }
 
 .main-content {
-  @apply flex-1 transition-all duration-300 bg-slate-50/50 dark:bg-slate-950/50;
+  @apply flex-1 p-6 transition-all duration-300 ease-in-out;
 }
 
 .main-container-p {
-  @apply p-6 h-full;
+  @apply max-w-[1920px] mx-auto;
 }
 
+/* Right Side Drawer Styles */
 .drawer-sidebar {
-  @apply fixed right-0 top-16 bottom-0 w-80 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 z-50 shadow-2xl;
+  @apply fixed top-16 right-0 bottom-0 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 z-40 transition-all duration-300 shadow-2xl overflow-hidden;
+  width: 440px;
 }
 
 .drawer-inner {
-  @apply p-6 h-full flex flex-col;
+  @apply flex flex-col h-full;
 }
 
 .drawer-header {
-  @apply flex items-center justify-between mb-6;
+  @apply px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between;
 }
 
 .drawer-title {
-  @apply text-lg font-bold;
+  @apply text-lg font-black tracking-tight;
 }
 
 .drawer-close-btn {
-  @apply p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg;
+  @apply p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all active:scale-90 text-slate-400;
 }
 
 .drawer-content {
-  @apply flex-1 overflow-auto;
+  @apply flex-1 flex flex-col overflow-hidden;
 }
 
-.drawer-description {
-  @apply text-slate-500 mb-4 text-sm;
+/* New Widget Selection UI (Vertical Sidebar style Categories) */
+.drawer-widget-view {
+  @apply flex flex-col h-full;
 }
 
-.drawer-grid {
-  @apply grid gap-3;
+.drawer-category-nav {
+  @apply px-4 py-6 border-b border-slate-50 dark:border-slate-800/50 bg-slate-50/30 dark:bg-slate-800/20;
+}
+
+.drawer-category-menu {
+  @apply flex flex-col gap-1;
+}
+
+.category-menu-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-slate-500 font-bold hover:bg-slate-100 dark:hover:bg-slate-800;
+}
+
+.category-menu-item.active {
+  @apply bg-blue-600 text-white shadow-lg shadow-blue-500/20;
+}
+
+.category-icon-wrap {
+  @apply flex items-center justify-center;
+}
+
+/* Sub-category and Horizontal Widget Swipe */
+.drawer-widget-scroll-area {
+  @apply flex-1 overflow-y-auto p-6 space-y-8;
+}
+
+.drawer-subcategory-group {
+  @apply flex flex-col gap-4;
+}
+
+.subcategory-name {
+  @apply text-xs font-black text-slate-400 uppercase tracking-widest pl-1;
+}
+
+.horizontal-widget-swipe {
+  @apply flex gap-3 overflow-x-auto pb-4;
 }
 
 .drawer-item-btn {
-  @apply p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 hover:ring-1 hover:ring-blue-500 transition-all text-left;
+  @apply flex flex-col items-center justify-center gap-2 p-3 border border-slate-100 dark:border-slate-800 rounded-2xl hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all text-center flex-shrink-0 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md;
+  width: 110px;
+  height: 90px;
+}
+
+.drawer-item-icon {
+  @apply text-slate-400 transition-colors flex-shrink-0;
+}
+
+.drawer-item-btn:hover .drawer-item-icon {
+  @apply text-blue-500;
 }
 
 .drawer-item-title {
-  @apply font-bold mb-1 group-hover:text-blue-600;
+  @apply text-[11px] font-black line-clamp-1 text-slate-600 dark:text-slate-400;
 }
 
-.drawer-item-desc {
-  @apply text-xs text-slate-50;
-}
+/* Settings View Styles */
+.drawer-settings-view { @apply p-6 flex flex-col h-full overflow-y-auto; }
+.drawer-description { @apply text-sm text-slate-500 mb-8; }
+.settings-section { @apply space-y-10; }
+.settings-title { @apply text-xs font-black text-slate-400 uppercase tracking-widest mb-4; }
+.settings-list { @apply space-y-2; }
+.settings-item { @apply flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800; }
+.settings-item-info { @apply flex items-center gap-3 font-bold text-sm; }
+.settings-remove-btn { @apply p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all; }
+.settings-add-btn { @apply w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black transition-all active:scale-95 mt-2; }
+.drawer-input { @apply w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:ring-4 focus:ring-blue-500/10 outline-none transition-all; }
 
-.drawer-input {
-  @apply w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:ring-1 focus:ring-blue-500 outline-none transition-all;
+/* Modal Styles */
+.modal-overlay { @apply fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-6; }
+.modal-card { @apply bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-800; }
+.modal-title { @apply text-2xl font-black mb-2; }
+.modal-desc { @apply text-slate-500 mb-8 font-medium; }
+.modal-grid { @apply grid grid-cols-2 gap-3 mb-8; }
+.modal-item { @apply flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-bold text-sm; }
+.modal-actions { @apply flex gap-3; }
+.modal-btn { @apply flex-1 py-4 rounded-2xl font-black transition-all active:scale-95; }
+.modal-btn.cancel { @apply bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400; }
+.modal-btn.confirm { @apply bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20; }
+
+/* Scrollbar Utility */
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-1.5;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 dark:bg-slate-700 rounded-full;
 }
